@@ -1,14 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { ThemeProvider, StylesProvider } from "@material-ui/core";
+import { ThemeProvider as StyledThemeProvider } from "styled-components";
+import theme from "./theming/theme";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <StylesProvider injectFirst>
+        <StyledThemeProvider theme={theme}>
+          <App />
+        </StyledThemeProvider>
+      </StylesProvider>
+    </ThemeProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
