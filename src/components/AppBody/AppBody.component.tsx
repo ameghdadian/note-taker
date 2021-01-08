@@ -1,64 +1,25 @@
-import React from "react";
-import {
-  BodyWrapper,
-  FormWrapper,
-  Form,
-  ButtonWrapper,
-} from "./styled-components";
-import { Typography, Grid, Divider } from "@material-ui/core";
+import React, { useState } from "react";
+import { BodyWrapper } from "./styled-components";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
 import CustomizableButton from "../CustomizableButton/CustomizableButton.component";
-import TextInput from "../TextInput/TextInput.component";
+import CreateNote from "../CreateNote/CreateNote.component";
+import NotesList from "../NotesList/NotesList.component";
 
 const AppBody = () => {
   // TODO: Remember to change The Buttun text from Create your first note(At first try) to Create a Note
+  const [formOpenState, setFormOpenState] = useState(false);
   return (
     <BodyWrapper elevation={3}>
       <CustomizableButton
         startIcon={<NoteAddIcon />}
         variant="contained"
         color="primary"
+        onClick={() => setFormOpenState(true)}
       >
         Create a note
       </CustomizableButton>
-      <Grid container direction="column" alignItems="stretch">
-        <Grid item>
-          <FormWrapper elevation={3}>
-            <Form noValidate autoComplete="off">
-              <TextInput id="" placeholder="Note Title" variant="outlined" />
-              <Divider />
-              <TextInput
-                id=""
-                size="small"
-                fullWidth
-                multiline
-                rows={5}
-                rowsMax={5}
-                variant="outlined"
-                placeholder="Take a note ..."
-              />
-              <Divider />
-              <ButtonWrapper>
-                <CustomizableButton
-                  size="medium"
-                  color="primary"
-                  variant="contained"
-                >
-                  Save
-                </CustomizableButton>
-                <CustomizableButton
-                  size="medium"
-                  color="secondary"
-                  variant="contained"
-                >
-                  Discard
-                </CustomizableButton>
-              </ButtonWrapper>
-            </Form>
-          </FormWrapper>
-        </Grid>
-      </Grid>
-      <Typography>List Of Previously Added Notes</Typography>
+      {formOpenState && <CreateNote onFormStateChange={setFormOpenState} />}
+      <NotesList />
     </BodyWrapper>
   );
 };

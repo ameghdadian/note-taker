@@ -5,7 +5,7 @@ import { Header, MainHeading } from "./styled-components";
 const AppHeader = () => (
   <Header>
     <Toolbar>
-      <MainHeading variant="h6">Sticky Note</MainHeading>
+      <MainHeading variant="h5">Note Manager</MainHeading>
     </Toolbar>
   </Header>
 );
