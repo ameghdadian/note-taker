@@ -6,8 +6,11 @@ import SignIn from "../SignIn/Signin.component";
 import { loadUserToken } from "../../utils/loadUserToken";
 import { useDispatch, useSelector } from "react-redux";
 import { getNotes } from "../../modules/note/asyncActions";
-import { setToken } from "../../modules/user/slice";
+import { setToken, invalidateToken } from "../../modules/user/slice";
 import { isTokenInvalidatedSelector } from "../../modules/user/selectors";
+import { ExitButton } from "./styled-components";
+
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const Main: FC<{}> = () => {
   const dispatch = useDispatch();
@@ -27,6 +30,13 @@ const Main: FC<{}> = () => {
           <AppHeader />
           <Container maxWidth="md">
             <AppBody />
+            <ExitButton
+              color="primary"
+              aria-label="add"
+              onClick={() => dispatch(invalidateToken())}
+            >
+              <ExitToAppIcon />
+            </ExitButton>
           </Container>
         </>
       ) : (
