@@ -1,10 +1,14 @@
 import React, { FC, SetStateAction, Dispatch, useState } from "react";
+import { useDispatch } from "react-redux";
 import SaveIcon from "@material-ui/icons/Save";
 import CancelIcon from "@material-ui/icons/Cancel";
 import TextInput from "../TextInput/TextInput.component";
 import CustomizableButton from "../CustomizableButton/CustomizableButton.component";
 import { Divider } from "@material-ui/core";
 import { ButtonWrapper, FormWrapper, Form } from "./styled-components";
+import { createNote } from "../../modules/note/asyncActions";
+
+// TODO: DON'T FORGET TO CHECK INPUT FOR NON-EMPTINESS AND VALIDITY
 
 interface ICreateNote {
   onFormStateChange: Dispatch<SetStateAction<boolean>>;
@@ -13,33 +17,29 @@ interface ICreateNote {
 const CreateNote: FC<ICreateNote> = ({ onFormStateChange }) => {
   const [formTitle, setFormTitle] = useState("");
   const [formContent, setFormContent] = useState("");
+  const dispatch = useDispatch();
 
-  const handleFormSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log("Form Title: ", formTitle);
-    console.log("Form Content: ", formContent);
+  const handleFormSubmit = () => {
+    if (formTitle.length && formContent.length) {
+      dispatch(createNote({ title: formTitle, content: formContent }));
+      onFormStateChange((c) => !c);
+    } else {
+      console.log("You need to enter fill all the blank input.");
+    }
   };
 
   return (
     <FormWrapper elevation={3}>
-      <Form
-        noValidate
-        autoComplete="off"
-        onSubmit={(event) => {
-          handleFormSubmit(event);
-          onFormStateChange((c) => !c);
-        }}
-      >
+      <Form noValidate autoComplete="off">
         <TextInput
-          id=""
           placeholder="Note Title"
           variant="outlined"
           onChange={(e) => setFormTitle(e.target.value)}
           value={formTitle}
+          required
         />
         <Divider />
         <TextInput
-          id=""
           fullWidth
           multiline
           rows={5}
@@ -48,15 +48,16 @@ const CreateNote: FC<ICreateNote> = ({ onFormStateChange }) => {
           placeholder="Take a note ..."
           onChange={(e) => setFormContent(e.target.value)}
           value={formContent}
+          required
         />
         <Divider />
         <ButtonWrapper>
           <CustomizableButton
-            type="submit"
             startIcon={<SaveIcon />}
             size="medium"
             color="primary"
             variant="contained"
+            onClick={handleFormSubmit}
           >
             Save
           </CustomizableButton>

@@ -4,14 +4,18 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider, StylesProvider } from "@material-ui/core";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
+import { store } from "./store";
 import theme from "./theming/theme";
+import { Provider } from "react-redux";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <StylesProvider injectFirst>
         <StyledThemeProvider theme={theme}>
-          <App />
+          <Provider store={store}>
+            <App />
+          </Provider>
         </StyledThemeProvider>
       </StylesProvider>
     </ThemeProvider>
