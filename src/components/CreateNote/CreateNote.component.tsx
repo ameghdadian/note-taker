@@ -1,5 +1,6 @@
 import React, { FC, SetStateAction, Dispatch, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { tokenSelector } from "../../modules/user/selectors";
 import SaveIcon from "@material-ui/icons/Save";
 import CancelIcon from "@material-ui/icons/Cancel";
 import TextInput from "../TextInput/TextInput.component";
@@ -19,9 +20,11 @@ const CreateNote: FC<ICreateNote> = ({ onFormStateChange }) => {
   const [formContent, setFormContent] = useState("");
   const dispatch = useDispatch();
 
+  const token = useSelector(tokenSelector) as string;
+
   const handleFormSubmit = () => {
     if (formTitle.length && formContent.length) {
-      dispatch(createNote({ title: formTitle, content: formContent }));
+      dispatch(createNote({ title: formTitle, content: formContent, token }));
       onFormStateChange((c) => !c);
     } else {
       console.log("You need to enter fill all the blank input.");

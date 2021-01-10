@@ -1,36 +1,51 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { addNote, removeNote, retrieveNotes } from "../../services/api/note";
 import { INote } from "../../services/types/note";
+import { invalidateToken, legitimizeToken } from "../user/slice";
+import { RootState } from "../../store";
 
-export const getNotes = createAsyncThunk<INote[]>(
+export const getNotes = createAsyncThunk<INote[] | void | string, string>(
   "notes/getNotes",
-  async () => {
-    const data = await retrieveNotes();
-    return data;
-  }
-);
-
-export const deleteNote = createAsyncThunk(
-  "notes/deleteNote",
-  async (id: string) => {
-    try {
-      await removeNote(id);
-      console.log("resp of note deletion: ", id);
-      return id;
-    } catch (error) {
-      console.log("An error happend when deleting post: ", error);
+  async (token, { dispatch, getState, rejectWithValue }) => {
+    console.log(getState());
+    const resp = await retrieveNotes(token);
+    if (resp === "user is not authorized") {
+      dispatch(invalidateToken());
+      return rejectWithValue(resp);
     }
+    dispatch(legitimizeToken());
+    return resp;
   }
 );
 
-export const createNote = createAsyncThunk(
-  "notes/createNote",
-  async ({ title, content }: { title: string; content: string }) => {
-    try {
-      const resp = await addNote(title, content);
-      if (resp?._id) {
-        return resp;
-      }
-    } catch (error) {}
+export const deleteNote = createAsyncThunk<
+  string,
+  {
+    id: string;
+    token: string;
   }
-);
+>("notes/deleteNote", async ({ id, token }, { dispatch }) => {
+  const resp = await removeNote(id, token);
+  if (resp === "user is not authorized") {
+    dispatch(invalidateToken());
+  }
+  return id;
+});
+
+export const createNote = createAsyncThunk<
+  INote | void,
+  {
+    title: string;
+    content: string;
+    token: string;
+  },
+  { state: RootState }
+>("notes/createNote", async ({ title, content, token }, { dispatch }) => {
+  const resp = await addNote(title, content, token);
+  if (resp === "user is not authorized") {
+    dispatch(invalidateToken());
+  }
+  if (typeof resp !== "string") {
+    return resp;
+  }
+});

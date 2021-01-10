@@ -1,55 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   Avatar,
   TextField,
-  FormControlLabel,
-  Checkbox,
-  Link,
-  Grid,
-  Box,
   Typography,
   Container,
   CssBaseline,
-  makeStyles,
 } from "@material-ui/core";
 import CustomizableButton from "../CustomizableButton/CustomizableButton.component";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+import { useStyles } from "./styled-components";
+import { getCredentials } from "../../modules/user/asyncActions";
 
 const SignIn = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+
   const classes = useStyles();
+
+  const handleChange = (event: any) => {
+    switch (event.target.id) {
+      case "email":
+        setEmail(event.target.value);
+        break;
+      case "password":
+        setPassword(event.target.value);
+        break;
+    }
+  };
+
+  const handleFormSubmission = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (email.length && password.length) {
+      dispatch(getCredentials({ email, password }));
+    } else {
+      console.log("Input must not be left empty");
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -61,10 +50,15 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form
+          className={classes.form}
+          noValidate
+          onSubmit={handleFormSubmission}
+        >
           <TextField
             variant="outlined"
             margin="normal"
+            value={email}
             required
             fullWidth
             id="email"
@@ -72,10 +66,12 @@ const SignIn = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={handleChange}
           />
           <TextField
             variant="outlined"
             margin="normal"
+            value={password}
             required
             fullWidth
             name="password"
@@ -83,8 +79,10 @@ const SignIn = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={handleChange}
           />
           <CustomizableButton
+            type="submit"
             fullWidth
             variant="contained"
             color="primary"

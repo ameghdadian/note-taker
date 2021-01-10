@@ -33,13 +33,15 @@ const notesSlice = createSlice({
 
     builder.addCase(getNotes.rejected, (state) => {
       state.isFetching = false;
-      state.isLoaded = true;
+      state.isLoaded = false;
     });
 
     builder.addCase(getNotes.fulfilled, (state, { payload }) => {
       state.isFetching = false;
       state.isLoaded = true;
-      state.notes = payload;
+      if (payload) {
+        state.notes = payload as INote[];
+      }
     });
 
     builder.addCase(createNote.pending, (state) => {
@@ -52,7 +54,7 @@ const notesSlice = createSlice({
 
     builder.addCase(createNote.fulfilled, (state, { payload }) => {
       state.isFetching = false;
-      state.notes.push(payload!);
+      state.notes.push(payload as INote);
     });
   },
 });

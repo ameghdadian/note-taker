@@ -1,11 +1,14 @@
-import { IUser } from "../types/user";
+import { IUserToken } from "../types/user";
 import { axiosInstance } from "../../utils/axiosInstance";
 
 // Route to Create and Read notes
-const AUTHROTUE = "api/v1/auth/token/";
+const AUTH_ROTUE = "api/v1/auth/token/";
 
-export async function getAuth(email: string, password: string): Promise<IUser> {
-  const { data } = await axiosInstance.post(AUTHROTUE, {
+export async function getAuth(
+  email: string,
+  password: string
+): Promise<IUserToken> {
+  const { data } = await axiosInstance.post(AUTH_ROTUE, {
     email,
     password,
   });

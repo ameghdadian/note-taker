@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getAuth } from "../../services/api/user";
-import { IUser } from "../../services/types/user";
+import { IUserCredentials } from "../../services/types/user";
 
 export const getCredentials = createAsyncThunk(
   "user/getCredentials",
-  async () => {
-    const data = await retrieveNotes();
+  async ({ email, password }: IUserCredentials) => {
+    const data = await getAuth(email, password);
     return data;
   }
 );

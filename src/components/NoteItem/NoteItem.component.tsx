@@ -9,7 +9,8 @@ import {
   IconButtonWrapper,
 } from "./styled-components";
 import { deleteNote } from "../../modules/note/asyncActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { tokenSelector } from "../../modules/user/selectors";
 
 interface INoteItem {
   note: {
@@ -24,6 +25,8 @@ const NoteItem: FC<INoteItem> = ({ note, id }) => {
   const [anchorEl, setAnchorEl] = useState();
   const dispatch = useDispatch();
 
+  const token = useSelector(tokenSelector) as string;
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget as any);
     setMenuOpen(true);
@@ -34,7 +37,7 @@ const NoteItem: FC<INoteItem> = ({ note, id }) => {
   };
 
   const onNoteDeletion = (id: string) => {
-    dispatch(deleteNote(id));
+    dispatch(deleteNote({ id, token }));
   };
 
   return (
