@@ -11,7 +11,13 @@ const notePersistConfig = {
   whitelist: ["isLoaded"],
 };
 
+const userPersistConfig = {
+  key: "user",
+  storage: storageSession,
+  whitelist: ["isTokenInvalidated"],
+};
+
 export const modulesReducer = combineReducers({
   note: persistReducer(notePersistConfig, notesReducer),
-  user: userReducer,
+  user: persistReducer(userPersistConfig, userReducer),
 });

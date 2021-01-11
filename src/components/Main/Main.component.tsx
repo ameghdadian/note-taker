@@ -9,9 +9,14 @@ import { loadUserToken } from "../../utils/loadUserToken";
 import { getNotes } from "../../modules/note/asyncActions";
 import { setToken } from "../../modules/user/slice";
 import { isTokenInvalidatedSelector } from "../../modules/user/selectors";
+import { notesSelector } from "../../modules/note/selectors";
 
 const Main: FC<{}> = () => {
   const dispatch = useDispatch();
+
+  const isTokenInvalid = useSelector(isTokenInvalidatedSelector);
+  const { isLoaded } = useSelector(notesSelector);
+
   useEffect(() => {
     // Retrieve Token saved inside user's localStorage
     const pcSavedToken = loadUserToken();
@@ -20,10 +25,9 @@ const Main: FC<{}> = () => {
     dispatch(getNotes(pcSavedToken));
   }, []);
 
-  const isTokenInvalid = useSelector(isTokenInvalidatedSelector);
   return (
     <>
-      {!isTokenInvalid ? (
+      {isLoaded && !isTokenInvalid ? (
         <>
           <AppHeader />
           <Container maxWidth="md">

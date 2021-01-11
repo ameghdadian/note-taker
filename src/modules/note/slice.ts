@@ -23,6 +23,9 @@ const notesSlice = createSlice({
       state.isLoaded = false;
       state.notes = [];
     },
+    setIsLoaded(state) {
+      state.isLoaded = true;
+    },
   },
   extraReducers(builder) {
     builder.addCase(deleteNote.fulfilled, (state, action) => {
@@ -66,4 +69,4 @@ const notesSlice = createSlice({
 });
 
 export const notesReducer = notesSlice.reducer;
-export const { clearNoteState } = notesSlice.actions;
+export const { clearNoteState, setIsLoaded } = notesSlice.actions;
