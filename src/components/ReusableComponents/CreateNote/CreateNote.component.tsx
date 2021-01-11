@@ -1,15 +1,13 @@
 import React, { FC, SetStateAction, Dispatch, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { tokenSelector } from "../../modules/user/selectors";
+import { tokenSelector } from "../../../modules/user/selectors";
 import SaveIcon from "@material-ui/icons/Save";
 import CancelIcon from "@material-ui/icons/Cancel";
 import TextInput from "../TextInput/TextInput.component";
 import CustomizableButton from "../CustomizableButton/CustomizableButton.component";
 import { Divider } from "@material-ui/core";
 import { ButtonWrapper, FormWrapper, Form } from "./styled-components";
-import { createNote } from "../../modules/note/asyncActions";
-
-// TODO: DON'T FORGET TO CHECK INPUT FOR NON-EMPTINESS AND VALIDITY
+import { createNote } from "../../../modules/note/asyncActions";
 
 interface ICreateNote {
   onFormStateChange: Dispatch<SetStateAction<boolean>>;

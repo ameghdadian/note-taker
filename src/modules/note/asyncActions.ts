@@ -6,8 +6,7 @@ import { RootState } from "../../store";
 
 export const getNotes = createAsyncThunk<INote[] | void | string, string>(
   "notes/getNotes",
-  async (token, { dispatch, getState, rejectWithValue }) => {
-    console.log(getState());
+  async (token, { dispatch, rejectWithValue }) => {
     const resp = await retrieveNotes(token);
     if (resp === "user is not authorized") {
       dispatch(invalidateToken());

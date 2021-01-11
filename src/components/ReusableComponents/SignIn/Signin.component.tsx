@@ -10,7 +10,7 @@ import {
 import CustomizableButton from "../CustomizableButton/CustomizableButton.component";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useStyles } from "./styled-components";
-import { getCredentials } from "../../modules/user/asyncActions";
+import { getCredentials } from "../../../modules/user/asyncActions";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");

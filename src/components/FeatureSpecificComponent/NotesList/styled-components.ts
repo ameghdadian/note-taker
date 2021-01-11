@@ -6,6 +6,7 @@ export const CircularLoader = styled(CircularProgress)`
   margin: 0 auto;
 `;
 
-export const StyledText = styled(Typography)`
+export const StyledText = styled(Typography)<{ mb1?: boolean }>`
   margin-top: 16px;
+  margin-bottom: ${(props) => props.mb1 && 16}px;
 `;

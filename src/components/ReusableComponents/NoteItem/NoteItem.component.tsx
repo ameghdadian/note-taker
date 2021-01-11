@@ -8,9 +8,9 @@ import {
   CardActionsGroup,
   IconButtonWrapper,
 } from "./styled-components";
-import { deleteNote } from "../../modules/note/asyncActions";
+import { deleteNote } from "../../../modules/note/asyncActions";
 import { useDispatch, useSelector } from "react-redux";
-import { tokenSelector } from "../../modules/user/selectors";
+import { tokenSelector } from "../../../modules/user/selectors";
 
 interface INoteItem {
   note: {

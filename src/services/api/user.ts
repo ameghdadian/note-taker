@@ -1,7 +1,6 @@
 import { IUserToken } from "../types/user";
 import { axiosInstance } from "../../utils/axiosInstance";
 
-// Route to Create and Read notes
 const AUTH_ROTUE = "api/v1/auth/token/";
 
 export async function getAuth(

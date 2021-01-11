@@ -1,22 +1,21 @@
 import React, { FC, useEffect } from "react";
 import { Container } from "@material-ui/core";
-import AppHeader from "../AppHeader/AppHeader.component";
-import AppBody from "../AppBody/AppBody.component";
-import SignIn from "../SignIn/Signin.component";
-import { loadUserToken } from "../../utils/loadUserToken";
 import { useDispatch, useSelector } from "react-redux";
+import AppBody from "../FeatureSpecificComponent/AppBody/AppBody.component";
+import AppHeader from "../ReusableComponents/AppHeader/AppHeader.component";
+import SignIn from "../ReusableComponents/SignIn/Signin.component";
+import SignOut from "../ReusableComponents/Signout/SignOut.component";
+import { loadUserToken } from "../../utils/loadUserToken";
 import { getNotes } from "../../modules/note/asyncActions";
-import { setToken, invalidateToken } from "../../modules/user/slice";
+import { setToken } from "../../modules/user/slice";
 import { isTokenInvalidatedSelector } from "../../modules/user/selectors";
-import { ExitButton } from "./styled-components";
-
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const Main: FC<{}> = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    // Token saved inside user's pc
+    // Retrieve Token saved inside user's localStorage
     const pcSavedToken = loadUserToken();
+    // Need to check token when user closed the session, but didn't signout(Thus token is still present)
     dispatch(setToken(pcSavedToken));
     dispatch(getNotes(pcSavedToken));
   }, []);
@@ -29,13 +28,7 @@ const Main: FC<{}> = () => {
           <AppHeader />
           <Container maxWidth="md">
             <AppBody />
-            <ExitButton
-              color="primary"
-              aria-label="add"
-              onClick={() => dispatch(invalidateToken())}
-            >
-              <ExitToAppIcon />
-            </ExitButton>
+            <SignOut />
           </Container>
         </>
       ) : (

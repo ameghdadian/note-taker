@@ -1,15 +1,13 @@
 import React, { useEffect } from "react";
 import { CircularLoader, StyledText } from "./styled-components";
-import NoteItem from "../NoteItem/NoteItem.component";
-import NoteList from "../NoteList/NoteList.component";
+import NoteItem from "../../ReusableComponents/NoteItem/NoteItem.component";
+import NoteList from "../../ReusableComponents/NoteList/NoteList.component";
 import { useDispatch, useSelector } from "react-redux";
-import { getNotes } from "../../modules/note/asyncActions";
-import { notesSelector } from "../../modules/note/selectors";
-import { tokenSelector } from "../../modules/user/selectors";
+import { getNotes } from "../../../modules/note/asyncActions";
+import { notesSelector } from "../../../modules/note/selectors";
+import { tokenSelector } from "../../../modules/user/selectors";
 
 const NotesList = () => {
-  // Render it provided there is some previously added note, at the same time run a loader when it's fetching
-  // Return no Previously added note if there is not any.
   const { notes, isFetching, isLoaded } = useSelector(notesSelector);
   const token = useSelector(tokenSelector);
   const dispatch = useDispatch();
@@ -24,7 +22,7 @@ const NotesList = () => {
     <>
       {notes.length ? (
         <>
-          <StyledText variant="h6" color="textSecondary">
+          <StyledText mb1 variant="h6" color="textSecondary">
             List Of Previously Added Notes
           </StyledText>
           <NoteList>
