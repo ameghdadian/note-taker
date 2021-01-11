@@ -17,7 +17,13 @@ export const initialState: INotesState = {
 const notesSlice = createSlice({
   initialState,
   name: "notes",
-  reducers: {},
+  reducers: {
+    clearNoteState(state) {
+      state.isFetching = false;
+      state.isLoaded = false;
+      state.notes = [];
+    },
+  },
   extraReducers(builder) {
     builder.addCase(deleteNote.fulfilled, (state, action) => {
       let noteIndex = state.notes.findIndex(
@@ -60,3 +66,4 @@ const notesSlice = createSlice({
 });
 
 export const notesReducer = notesSlice.reducer;
+export const { clearNoteState } = notesSlice.actions;

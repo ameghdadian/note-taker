@@ -8,7 +8,9 @@ export const getNotes = createAsyncThunk<INote[] | void | string, string>(
   "notes/getNotes",
   async (token, { dispatch, rejectWithValue }) => {
     const resp = await retrieveNotes(token);
+    console.log("FETCHING USERS TOKEN", resp);
     if (resp === "user is not authorized") {
+      console.log("REACHED HERE");
       dispatch(invalidateToken());
       return rejectWithValue(resp);
     }

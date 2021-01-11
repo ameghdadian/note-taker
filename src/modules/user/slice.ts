@@ -23,6 +23,7 @@ const userSlice = createSlice({
     invalidateToken(state) {
       store.remove("token");
       state.isTokenInvalidated = true;
+      state.token = "";
     },
     setToken(state, { payload }) {
       state.token = payload;
