@@ -22,7 +22,6 @@ const Main: FC<{}> = () => {
   }, []);
 
   const isTokenInvalid = useSelector(isTokenInvalidatedSelector);
-  console.log("Invalid Token: ", isTokenInvalid);
   return (
     <>
       {!isTokenInvalid ? (
