@@ -4,21 +4,24 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider, StylesProvider } from "@material-ui/core";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
-import { store } from "./store";
+import { persistor, store } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
 import theme from "./theming/theme";
 import { Provider } from "react-redux";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <StylesProvider injectFirst>
-        <StyledThemeProvider theme={theme}>
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </StyledThemeProvider>
-      </StylesProvider>
-    </ThemeProvider>
+    <PersistGate persistor={persistor}>
+      <ThemeProvider theme={theme}>
+        <StylesProvider injectFirst>
+          <StyledThemeProvider theme={theme}>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </StyledThemeProvider>
+        </StylesProvider>
+      </ThemeProvider>
+    </PersistGate>
   </React.StrictMode>,
   document.getElementById("root")
 );
