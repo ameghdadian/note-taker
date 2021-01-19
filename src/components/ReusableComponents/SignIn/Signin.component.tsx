@@ -15,6 +15,7 @@ import { getCredentials } from "../../../modules/user/asyncActions";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emptyInput, setEmptyInput] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -36,6 +37,7 @@ const SignIn = () => {
     if (email.length && password.length) {
       dispatch(getCredentials({ email, password }));
     } else {
+      setEmptyInput(true);
       console.log("Input must not be left empty");
     }
   };
@@ -58,7 +60,9 @@ const SignIn = () => {
           <TextField
             variant="outlined"
             margin="normal"
+            error={emptyInput}
             value={email}
+            helperText={emptyInput && "Input must not be left empty"}
             required
             fullWidth
             id="email"
@@ -71,7 +75,9 @@ const SignIn = () => {
           <TextField
             variant="outlined"
             margin="normal"
+            error={emptyInput}
             value={password}
+            helperText={emptyInput && "Input must not be left empty"}
             required
             fullWidth
             name="password"

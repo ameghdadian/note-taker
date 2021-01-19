@@ -7,7 +7,7 @@ export async function getAuth(
   email: string,
   password: string
 ): Promise<IUserToken> {
-  const { data } = await axiosInstance.post(AUTH_ROTUE, {
+  const { data } = await axiosInstance().post(AUTH_ROTUE, {
     email,
     password,
   });

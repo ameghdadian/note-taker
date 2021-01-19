@@ -9,18 +9,10 @@ export async function addNote(
   content: string,
   token: string
 ): Promise<INote | string> {
-  const { data } = await axiosInstance.post(
-    CR_NOTE,
-    {
-      title,
-      content,
-    },
-    {
-      headers: {
-        Authorization: `jwt ${token}`,
-      },
-    }
-  );
+  const { data } = await axiosInstance().post(CR_NOTE, {
+    title,
+    content,
+  });
 
   return data;
 }
@@ -28,21 +20,13 @@ export async function addNote(
 export async function retrieveNotes(
   token: string
 ): Promise<INote[] | void | string> {
-  const { data } = await axiosInstance.get(CR_NOTE, {
-    headers: {
-      Authorization: `jwt ${token}`,
-    },
-  });
+  const { data } = await axiosInstance().get(CR_NOTE);
 
   return data;
 }
 
 export async function removeNote(id: string, token: string): Promise<{}> {
-  const { data } = await axiosInstance.delete(`api/v1/notes/${id}`, {
-    headers: {
-      Authorization: `jwt ${token}`,
-    },
-  });
+  const { data } = await axiosInstance().delete(`api/v1/notes/${id}`);
 
   return data;
 }
