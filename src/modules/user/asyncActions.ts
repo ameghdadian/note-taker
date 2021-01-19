@@ -9,9 +9,9 @@ export const getCredentials = createAsyncThunk(
   "user/getCredentials",
   async ({ email, password }: IUserCredentials, { dispatch }) => {
     const data = await getAuth(email, password);
-    console.log("Returned Token: ", data);
     console.log("User storage Token: ", store.get("token"));
     if (data?.token) {
+      store.set("token", data.token);
       dispatch(setIsLoaded());
       dispatch(getNotes(data.token));
     }

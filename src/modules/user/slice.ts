@@ -48,7 +48,6 @@ const userSlice = createSlice({
       state.isLoaded = true;
       state.isTokenInvalidated = false;
       store.set("token", payload.token);
-      console.log("Payload: ", payload.token);
       state.token = payload.token;
     });
   },
